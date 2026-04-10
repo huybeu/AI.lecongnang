@@ -1,3 +1,3 @@
-# Landing — AI Leadership (Lê Công Năng)
+# AI.lecongnang
 
-Trang landing tĩnh (`index.html`). Deploy lên bất kỳ host tĩnh nào hoặc `ai.lecongnang.com`.
+Static landing page (`index.html`) — AI Leadership, Le Cong Nang. Deploy to static hosting or https://ai.lecongnang.com/
