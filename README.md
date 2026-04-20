@@ -1,32 +1,33 @@
 # AI.lecongnang
 
-- **Frontend:** React 19 + **Vite** — shell SPA nhúng landing đầy đủ qua `public/static-landing.html` (có thể tách dần thành component React).
-- **Backend:** **Node.js + Express** — `POST /api/chat` proxy Anthropic (key chỉ trên server).
+- **Frontend:** React + **Vite** — shell trong `client/`, landing đầy đủ: `client/public/static-landing.html` (iframe).
+- **Backend (tùy hosting):**
+  - **Node.js + Express** — `server.js`, `POST /api/chat` proxy Anthropic.
+  - **ASP.NET Core 8** — thư mục `aspnet/LeCongNang.Api/` cho **IIS 10 / Windows Server** (không cần Node trên host). Xem `aspnet/README.md`.
 
-## Cài đặt
+## Cài đặt (frontend + Node)
 
 ```bash
 npm install
 cd client && npm install && cd ..
 ```
 
-## Chạy dev (2 terminal)
+## Chạy dev — Node (2 terminal)
 
-1. API: `npm run dev:api` → `http://localhost:3000` (chỉ API nếu chưa build client).
-2. React: `npm run dev:client` → `http://localhost:5173` (proxy `/api` → 3000).
+1. API: `npm run dev:api` → `http://localhost:3000`
+2. React: `npm run dev:client` → `http://localhost:5173` (proxy `/api` → 3000)
 
-Mở **http://localhost:5173** — chat trong landing gọi `/api/chat` qua proxy.
-
-## Production
+## Production — Node
 
 ```bash
-# Tạo .env với ANTHROPIC_API_KEY
 npm run build
 npm start
 ```
 
-Mở **http://localhost:3000** — Express phục vụ `client/dist` + API.
+Cần `.env` với `ANTHROPIC_API_KEY`.
 
-## Nền tảng backend (gợi ý deploy)
+## Production — IIS / .NET
 
-Giữ **Express** trên VPS / **Railway** / **Render** / **Fly.io**; hoặc sau này đổi sang **Fastify** / **NestJS** nếu cần cấu trúc lớn hơn — không bắt buộc đổi khi quy mô hiện tại.
+Không cài Node trên server: publish project trong `aspnet/`, copy `client/dist` vào `wwwroot`, cài **.NET 8 Hosting Bundle** trên IIS. Chi tiết: **`aspnet/README.md`**.
+
+**MSSQL:** hiện không dùng cho chat; chỉ khi sau này có lưu form / lead.

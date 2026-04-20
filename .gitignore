@@ -1,5 +1,8 @@
 node_modules/
 client/dist/
+aspnet/**/bin/
+aspnet/**/obj/
+aspnet/**/publish/
 .DS_Store
 Thumbs.db
 *.log
