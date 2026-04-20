@@ -3,7 +3,9 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev:api": "node server.js",
+    "dev:client": "npm run dev --prefix client",
+    "build": "npm run build --prefix client"
   },
   "engines": {
     "node": ">=18"

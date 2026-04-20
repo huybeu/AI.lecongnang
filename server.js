@@ -1,10 +1,15 @@
 require('dotenv').config();
+const fs = require('fs');
 const path = require('path');
 const express = require('express');
 
 const PORT = Number(process.env.PORT) || 3000;
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 const ALLOWED_MODEL = 'claude-sonnet-4-20250514';
+
+const distPath = path.join(__dirname, 'client', 'dist');
+const distIndex = path.join(distPath, 'index.html');
+const hasDist = fs.existsSync(distIndex);
 
 const app = express();
 app.use(express.json({ limit: '512kb' }));
@@ -51,8 +56,14 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-app.use(express.static(path.join(__dirname)));
+if (hasDist) {
+  app.use(express.static(distPath));
+} else {
+  console.warn(
+    '[server] Chưa có client/dist — chạy `npm run build` rồi `npm start`, hoặc dev: `npm run dev:api` + `npm run dev:client`'
+  );
+}
 
 app.listen(PORT, () => {
-  console.log(`http://localhost:${PORT}`);
+  console.log(`http://localhost:${PORT}${hasDist ? ' (API + React build)' : ' (chỉ API)'}`);
 });
