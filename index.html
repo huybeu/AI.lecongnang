@@ -952,10 +952,11 @@ async function sendChat(){
   addM('user',txt);hist.push({role:'user',content:txt});
   const tp=addM('bot','💬 Đang trả lời...');
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:SYS,messages:hist.slice(-8)})});
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:SYS,messages:hist.slice(-8)})});
     const d=await r.json();
     tp.remove();
-    const rep=d.content?.[0]?.text||'Xin lỗi, lỗi kết nối. Vui lòng gọi 0931 722 777!';
+    const errMsg=d.error&&(typeof d.error==='string'?d.error:d.error.message);
+    const rep=d.content?.[0]?.text||errMsg||'Xin lỗi, lỗi kết nối. Vui lòng gọi 0931 722 777!';
     addM('bot',rep);hist.push({role:'assistant',content:rep});
   }catch{tp.remove();addM('bot','Xin lỗi, có lỗi kết nối. Vui lòng gọi <strong>0931 722 777</strong>!');}
 }
